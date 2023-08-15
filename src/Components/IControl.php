@@ -17,7 +17,6 @@ namespace Munipolis\VisualPaginator\Components;
 interface IControl
 {
 	/**
-	 * @param string|NULL $templateFile
 	 * @return mixed
 	 */
 	public function create(?string $templateFile = NULL, $displayRelatedPages = 3);

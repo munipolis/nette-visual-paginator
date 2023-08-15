@@ -14,12 +14,12 @@
 
 namespace Munipolis\VisualPaginator\DI;
 
-use Nette;
 use Nette\Configurator;
-use Nette\DI;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Helpers;
+use Nette\DI\Extensions\InjectExtension;
+use Nette\PhpGenerator\PhpLiteral;
 
 class VisualPaginatorExtension extends CompilerExtension
 {
@@ -41,8 +41,8 @@ class VisualPaginatorExtension extends CompilerExtension
 			->addTag('cms.components')
 			->getResultDefinition()
 			->setType('src\VisualPaginator\Components\Control')
-			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
-			->addTag(DI\Extensions\InjectExtension::TAG_INJECT);
+			->setArguments([new PhpLiteral('$templateFile')])
+			->addTag(InjectExtension::TAG_INJECT);
 
 		if ($config['templateFile']) {
 			$paginator->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);

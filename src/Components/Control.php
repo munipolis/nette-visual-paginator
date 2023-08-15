@@ -14,10 +14,12 @@
 
 namespace Munipolis\VisualPaginator\Components;
 
-use Nette;
+use Munipolis\VisualPaginator\Exceptions\FileNotFoundException;
+use Munipolis\VisualPaginator\Exceptions\InvalidStateException;
 use Nette\Application;
+use Nette\Application\BadRequestException;
+use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IContainer;
-use Nette\Localization;
 use Nette\Localization\Translator;
 use Nette\Utils\Paginator;
 
@@ -42,7 +44,7 @@ class Control extends Application\UI\Control
 	 */
 	public array $onShowPage;
 
-	protected Paginator $paginator;
+	protected ?Paginator $paginator;
 
 	protected string $templateFile;
 
@@ -75,7 +77,7 @@ class Control extends Application\UI\Control
 	public function render()
 	{
 		// Check if control has template
-		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($this->template instanceof Template) {
 			// Assign vars to template
 			$this->template->steps = $this->getSteps();
 			$this->template->paginator = $this->getPaginator();
@@ -100,7 +102,7 @@ class Control extends Application\UI\Control
 			$this->template->render();
 
 		} else {
-			throw new \Munipolis\VisualPaginator\Exceptions\InvalidStateException('Visual paginator control is without template.');
+			throw new InvalidStateException('Visual paginator control is without template.');
 		}
 	}
 
@@ -131,7 +133,7 @@ class Control extends Application\UI\Control
 	/**
 	 * Change default control template path
 	 *
-	 * @throws \Munipolis\VisualPaginator\Exceptions\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public function setTemplateFile(string $templateFile): self
 	{
@@ -143,7 +145,7 @@ class Control extends Application\UI\Control
 
 			} else {
 				// ...if not throw exception
-				throw new \Munipolis\VisualPaginator\Exceptions\FileNotFoundException('Template file "'. $templateFile .'" was not found.');
+				throw new FileNotFoundException('Template file "'. $templateFile .'" was not found.');
 			}
 		}
 
@@ -159,9 +161,6 @@ class Control extends Application\UI\Control
 		return $this;
 	}
 
-	/**
-	 * @return Localization\ITranslator|null
-	 */
 	public function getTranslator(): ?Translator
 	{
 		return $this->translator;
@@ -201,7 +200,7 @@ class Control extends Application\UI\Control
 
 	/**
 	 * @param mixed[] $params
-	 * @throws Application\BadRequestException
+	 * @throws BadRequestException
 	 */
 	public function loadState(array $params): void
 	{
