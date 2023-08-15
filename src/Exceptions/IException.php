@@ -1,6 +1,6 @@
 <?php
 /**
- * FileNotFoundException.php
+ * IException.php
  *
  * @copyright	More in license.md
  * @license		http://www.ipublikuj.eu
@@ -12,6 +12,6 @@
  * @date		30.01.15
  */
 
-namespace IPub\VisualPaginator\Exceptions;
+namespace Munipolis\VisualPaginator\Exceptions;
 
-class FileNotFoundException extends IOException implements IException {}
+interface IException {}

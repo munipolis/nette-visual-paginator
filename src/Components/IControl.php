@@ -12,7 +12,7 @@
  * @date		18.06.14
  */
 
-namespace IPub\VisualPaginator\Components;
+namespace Munipolis\VisualPaginator\Components;
 
 interface IControl
 {
@@ -20,5 +20,5 @@ interface IControl
 	 * @param string|NULL $templateFile
 	 * @return mixed
 	 */
-	public function create($templateFile = NULL, $displayRelatedPages = 3);
+	public function create(?string $templateFile = NULL, $displayRelatedPages = 3);
 }

@@ -12,6 +12,6 @@
  * @date		30.01.15
  */
 
-namespace IPub\VisualPaginator\Exceptions;
+namespace Munipolis\VisualPaginator\Exceptions;
 
 class IOException extends \RuntimeException implements IException {}

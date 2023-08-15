@@ -1,28 +1,13 @@
 # Visual Paginator
 
-[![Build Status](https://img.shields.io/travis/ipublikuj-ui/visual-paginator.svg?style=flat-square)](https://travis-ci.org/ipublikuj-ui/visual-paginator)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ipublikuj-ui/visual-paginator.svg?style=flat-square)](https://scrutinizer-ci.com/g/ipublikuj-ui/visual-paginator/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/ipub/visual-paginator.svg?style=flat-square)](https://packagist.org/packages/ipub/visual-paginator)
-[![Composer Downloads](https://img.shields.io/packagist/dt/ipub/visual-paginator.svg?style=flat-square)](https://packagist.org/packages/ipub/visual-paginator)
-
 Visual paginator for [Nette Framework](http://nette.org/)
 
 ## Installation
 
 The best way to install ipub/visual-paginator is using  [Composer](http://getcomposer.org/):
 
-```json
-{
-	"require": {
-		"ipub/visual-paginator": "dev-master"
-	}
-}
-```
-
-or
-
 ```sh
-$ composer require ipub/visual-paginator:@dev
+$ composer require munipolis/nette-visual-paginator
 ```
 
 After that you have to register extension in config.neon.
@@ -65,12 +50,12 @@ class SomePresenter extends Nette\Application\UI\Presenter
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return \src\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new \src\VisualPaginator\Components\Control;
 
 		return $control;
 	}
@@ -89,12 +74,12 @@ class SomePresenter extends Nette\Application\UI\Presenter
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return \src\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new \src\VisualPaginator\Components\Control;
 
 		// Enable ajax (by default)
 		$control->enableAjax();
@@ -142,12 +127,12 @@ class SomePresenter extends Nette\Application\UI\Presenter
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return \src\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new \src\VisualPaginator\Components\Control;
 
 		// To use bootstrap default template
 		$control->setTemplateFile('bootstrap.latte');

@@ -12,16 +12,14 @@
  * @date		12.03.14
  */
 
-namespace IPub\VisualPaginator\Components;
+namespace Munipolis\VisualPaginator\Components;
 
 use Nette;
 use Nette\Application;
+use Nette\ComponentModel\IContainer;
 use Nette\Localization;
-use Nette\Utils;
-
-use IPub;
-use IPub\VisualPaginator;
-use IPub\VisualPaginator\Exceptions;
+use Nette\Localization\Translator;
+use Nette\Utils\Paginator;
 
 /**
  * Visual paginator control
@@ -35,65 +33,40 @@ use IPub\VisualPaginator\Exceptions;
  */
 class Control extends Application\UI\Control
 {
-	/**
-	 * @persistent int
-	 */
-	public $page = 1;
+	public int $page = 1;
 
 	/**
 	 * Events
 	 *
-	 * @var array
+	 * @var mixed[]
 	 */
-	public $onShowPage;
+	public array $onShowPage;
 
-	/**
-	 * @var Utils\Paginator
-	 */
-	protected $paginator;
+	protected Paginator $paginator;
 
-	/**
-	 * @var string
-	 */
-	protected $templateFile;
-        
-        /**
-         * @var int 
-         */
-        protected $displayRelatedPages;
+	protected string $templateFile;
 
-	/**
-	 * @var Localization\ITranslator
-	 */
-	protected $translator;
+	protected int $displayRelatedPages;
 
-	/**
-	 * @var bool
-	 */
-	protected $useAjax = TRUE;
+	protected ?Translator $translator;
 
-	/**
-	 * @param Localization\ITranslator $translator
-	 */
-	public function injectTranslator(Localization\ITranslator $translator = NULL)
+	protected bool $useAjax = TRUE;
+
+	public function injectTranslator(?Translator $translator = NULL)
 	{
 		$this->translator = $translator;
 	}
 
-	/**
-	 * @param NULL|string $templateFile
-	 * @param Nette\ComponentModel\IContainer $parent
-	 * @param null $name
-	 */
 	public function __construct(
-		$templateFile = NULL,
-                $displayRelatedPages = NULL,
-		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
+		?string $templateFile = NULL,
+		$displayRelatedPages = NULL,
+		IContainer $parent = NULL,
+		?string $name = NULL
 	) {
 		if ($templateFile) {
 			$this->setTemplateFile($templateFile);
 		}
-                $this->displayRelatedPages = (int)$displayRelatedPages;
+       	$this->displayRelatedPages = (int)$displayRelatedPages;
 	}
 
 	/**
@@ -104,20 +77,22 @@ class Control extends Application\UI\Control
 		// Check if control has template
 		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$this->template->steps		= $this->getSteps();
-			$this->template->paginator	= $this->getPaginator();
-			$this->template->handle		= 'showPage!';
-			$this->template->useAjax	= $this->useAjax;
+			$this->template->steps = $this->getSteps();
+			$this->template->paginator = $this->getPaginator();
+			$this->template->handle = 'showPage!';
+			$this->template->useAjax = $this->useAjax;
 
 			// Check if translator is available
-			if ($this->getTranslator() instanceof Localization\ITranslator) {
+			if ($this->getTranslator() instanceof Translator) {
 				$this->template->setTranslator($this->getTranslator());
 			}
 
 			// If template was not defined before...
 			if ($this->template->getFile() === NULL) {
 				// ...try to get base component template file
-				$templateFile = !empty($this->templateFile) ? $this->templateFile : __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'default.latte';
+				$templateFile = !empty($this->templateFile)
+					? $this->templateFile
+					: __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'default.latte';
 				$this->template->setFile($templateFile);
 			}
 
@@ -125,38 +100,29 @@ class Control extends Application\UI\Control
 			$this->template->render();
 
 		} else {
-			throw new Exceptions\InvalidStateException('Visual paginator control is without template.');
+			throw new \Munipolis\VisualPaginator\Exceptions\InvalidStateException('Visual paginator control is without template.');
 		}
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function enableAjax()
+	public function enableAjax(): self
 	{
 		$this->useAjax = TRUE;
 
 		return $this;
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function disableAjax()
+	public function disableAjax(): self
 	{
 		$this->useAjax = FALSE;
 
 		return $this;
 	}
 
-	/**
-	 * @return Utils\Paginator
-	 */
-	public function getPaginator()
+	public function getPaginator(): Paginator
 	{
 		// Check if paginator is created
 		if (!$this->paginator) {
-			$this->paginator = new Utils\Paginator;
+			$this->paginator = new Paginator;
 		}
 
 		return $this->paginator;
@@ -165,13 +131,9 @@ class Control extends Application\UI\Control
 	/**
 	 * Change default control template path
 	 *
-	 * @param string $templateFile
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\FileNotFoundException
+	 * @throws \Munipolis\VisualPaginator\Exceptions\FileNotFoundException
 	 */
-	public function setTemplateFile($templateFile)
+	public function setTemplateFile(string $templateFile): self
 	{
 		// Check if template file exists...
 		if (!is_file($templateFile)) {
@@ -181,7 +143,7 @@ class Control extends Application\UI\Control
 
 			} else {
 				// ...if not throw exception
-				throw new Exceptions\FileNotFoundException('Template file "'. $templateFile .'" was not found.');
+				throw new \Munipolis\VisualPaginator\Exceptions\FileNotFoundException('Template file "'. $templateFile .'" was not found.');
 			}
 		}
 
@@ -190,12 +152,7 @@ class Control extends Application\UI\Control
 		return $this;
 	}
 
-	/**
-	 * @param Localization\ITranslator $translator
-	 *
-	 * @return $this
-	 */
-	public function setTranslator(Localization\ITranslator $translator)
+	public function setTranslator(Translator $translator): self
 	{
 		$this->translator = $translator;
 
@@ -205,19 +162,15 @@ class Control extends Application\UI\Control
 	/**
 	 * @return Localization\ITranslator|null
 	 */
-	public function getTranslator()
+	public function getTranslator(): ?Translator
 	{
-		if ($this->translator instanceof Localization\ITranslator) {
-			return $this->translator;
-		}
-
-		return NULL;
+		return $this->translator;
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getSteps()
+	public function getSteps(): array
 	{
 		// Get Nette paginator
 		$paginator = $this->getPaginator();
@@ -229,7 +182,7 @@ class Control extends Application\UI\Control
 			$steps = [$page];
 
 		} else {
-                        $relatedPages = $this->displayRelatedPages ?: 3;
+            $relatedPages = $this->displayRelatedPages ?: 3;
 			$arr = range(max($paginator->firstPage, $page - $relatedPages), min($paginator->lastPage, $page + $relatedPages));
 			$count = 4;
 			$quotient = ($paginator->pageCount - 1) / $count;
@@ -247,11 +200,8 @@ class Control extends Application\UI\Control
 	}
 
 	/**
-	 * Loads state information
-	 *
-	 * @param  array
-	 *
-	 * @return void
+	 * @param mixed[] $params
+	 * @throws Application\BadRequestException
 	 */
 	public function loadState(array $params): void
 	{
@@ -260,10 +210,7 @@ class Control extends Application\UI\Control
 		$this->getPaginator()->page = $this->page;
 	}
 
-	/**
-	 * @param int $page
-	 */
-	public function handleShowPage($page)
+	public function handleShowPage(int $page): void
 	{
 		$this->onShowPage($this, $page);
 	}
