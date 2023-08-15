@@ -1,5 +1,5 @@
 {
-  "name": "ipub/visual-paginator",
+  "name": "munipolis/nette-visual-paginator",
   "type": "library",
   "description": "Visual paginator for Nette Framework",
   "keywords": [
@@ -32,7 +32,7 @@
     "issues": "https://github.com/iPublikuj/visual-paginator/issues"
   },
   "require": {
-    "php": "^7.2",
+    "php": "^7.4 || ^8.0",
     "nette/application": "^3.0",
     "nette/di": "^3.0",
     "nette/utils": "^3.0",
@@ -46,8 +46,8 @@
     "janmarek/mockista": "^1.1"
   },
   "autoload": {
-    "psr-0": {
-      "IPub\\VisualPaginator\\": "src/"
+    "psr-4": {
+      "Munipolis\\VisualPaginator\\": "src/"
     }
   }
 }
