@@ -40,7 +40,7 @@ class VisualPaginatorExtension extends CompilerExtension
 			->setImplement('Munipolis\VisualPaginator\Components\IControl')
 			->addTag('cms.components')
 			->getResultDefinition()
-			->setType('src\Components\Control')
+			->setType('Munipolis\VisualPaginator\Components\Control')
 			->setArguments([new PhpLiteral('$templateFile')])
 			->addTag(InjectExtension::TAG_INJECT);
 
