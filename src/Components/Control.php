@@ -44,13 +44,13 @@ class Control extends Application\UI\Control
 	 */
 	public array $onShowPage;
 
-	protected ?Paginator $paginator;
+	protected ?Paginator $paginator = NULL;
 
 	protected string $templateFile;
 
 	protected int $displayRelatedPages;
 
-	protected ?Translator $translator;
+	protected ?Translator $translator = NULL;
 
 	protected bool $useAjax = TRUE;
 
