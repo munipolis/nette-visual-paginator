@@ -44,26 +44,26 @@ class Control extends Application\UI\Control
 	 */
 	public array $onShowPage;
 
-	protected ?Paginator $paginator = NULL;
+	protected ?Paginator $paginator = null;
 
 	protected string $templateFile;
 
 	protected int $displayRelatedPages;
 
-	protected ?Translator $translator = NULL;
+	protected ?Translator $translator = null;
 
-	protected bool $useAjax = TRUE;
+	protected bool $useAjax = true;
 
-	public function injectTranslator(?Translator $translator = NULL)
+	public function injectTranslator(?Translator $translator = null)
 	{
 		$this->translator = $translator;
 	}
 
 	public function __construct(
-		?string $templateFile = NULL,
-		$displayRelatedPages = NULL,
-		IContainer $parent = NULL,
-		?string $name = NULL
+		?string $templateFile = null,
+		$displayRelatedPages = null,
+		IContainer $parent = null,
+		?string $name = null
 	) {
 		if ($templateFile) {
 			$this->setTemplateFile($templateFile);
@@ -90,7 +90,7 @@ class Control extends Application\UI\Control
 			}
 
 			// If template was not defined before...
-			if ($this->template->getFile() === NULL) {
+			if ($this->template->getFile() === null) {
 				// ...try to get base component template file
 				$templateFile = !empty($this->templateFile)
 					? $this->templateFile
@@ -108,14 +108,14 @@ class Control extends Application\UI\Control
 
 	public function enableAjax(): self
 	{
-		$this->useAjax = TRUE;
+		$this->useAjax = true;
 
 		return $this;
 	}
 
 	public function disableAjax(): self
 	{
-		$this->useAjax = FALSE;
+		$this->useAjax = false;
 
 		return $this;
 	}

@@ -27,7 +27,7 @@ class VisualPaginatorExtension extends CompilerExtension
 	 * @var mixed[]
 	 */
 	protected array $defaults = [
-		'templateFile'	=> NULL
+		'templateFile'	=> null,
 	];
 
 	public function loadConfiguration()

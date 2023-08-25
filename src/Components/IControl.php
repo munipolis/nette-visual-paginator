@@ -19,5 +19,5 @@ interface IControl
 	/**
 	 * @return mixed
 	 */
-	public function create(?string $templateFile = NULL, $displayRelatedPages = 3);
+	public function create(?string $templateFile = null, $displayRelatedPages = 3);
 }
