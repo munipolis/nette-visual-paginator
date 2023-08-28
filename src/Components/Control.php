@@ -20,7 +20,7 @@ use Nette\Application;
 use Nette\Application\BadRequestException;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nette\ComponentModel\IContainer;
-use Nette\Localization\Translator;
+use Nette\Localization\ITranslator;
 use Nette\Utils\Paginator;
 
 /**
@@ -35,6 +35,9 @@ use Nette\Utils\Paginator;
  */
 class Control extends Application\UI\Control
 {
+	/**
+	 * @persistent int
+	 */
 	public int $page = 1;
 
 	/**
@@ -50,11 +53,11 @@ class Control extends Application\UI\Control
 
 	protected int $displayRelatedPages;
 
-	protected ?Translator $translator = null;
+	protected ?ITranslator $translator = null;
 
 	protected bool $useAjax = true;
 
-	public function injectTranslator(?Translator $translator = null)
+	public function injectTranslator(ITranslator $translator = null): void
 	{
 		$this->translator = $translator;
 	}
@@ -74,7 +77,7 @@ class Control extends Application\UI\Control
 	/**
 	 * Render control
 	 */
-	public function render()
+	public function render(): void
 	{
 		// Check if control has template
 		if ($this->template instanceof Template) {
@@ -85,7 +88,7 @@ class Control extends Application\UI\Control
 			$this->template->useAjax = $this->useAjax;
 
 			// Check if translator is available
-			if ($this->getTranslator() instanceof Translator) {
+			if ($this->getTranslator() instanceof ITranslator) {
 				$this->template->setTranslator($this->getTranslator());
 			}
 
@@ -135,7 +138,7 @@ class Control extends Application\UI\Control
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function setTemplateFile(string $templateFile): self
+	public function setTemplateFile(string $templateFile): Control
 	{
 		// Check if template file exists...
 		if (!is_file($templateFile)) {
@@ -154,16 +157,20 @@ class Control extends Application\UI\Control
 		return $this;
 	}
 
-	public function setTranslator(Translator $translator): self
+	public function setTranslator(ITranslator $translator): Control
 	{
 		$this->translator = $translator;
 
 		return $this;
 	}
 
-	public function getTranslator(): ?Translator
+	public function getTranslator(): ?ITranslator
 	{
-		return $this->translator;
+		if ($this->translator instanceof ITranslator) {
+			return $this->translator;
+		}
+
+		return null;
 	}
 
 	/**
