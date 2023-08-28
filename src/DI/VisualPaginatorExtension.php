@@ -12,46 +12,46 @@
  * @date		18.06.14
  */
 
-namespace IPub\VisualPaginator\DI;
+namespace Munipolis\VisualPaginator\DI;
 
-use Nette;
-use Nette\DI;
+use Nette\Configurator;
+use Nette\DI\Compiler;
+use Nette\DI\CompilerExtension;
+use Nette\DI\Config\Helpers;
+use Nette\DI\Extensions\InjectExtension;
+use Nette\PhpGenerator\PhpLiteral;
 
-class VisualPaginatorExtension extends DI\CompilerExtension
+class VisualPaginatorExtension extends CompilerExtension
 {
 	/**
-	 * @var array
+	 * @var mixed[]
 	 */
-	protected $defaults = [
-		'templateFile'	=> NULL
+	protected array $defaults = [
+		'templateFile'	=> null,
 	];
 
 	public function loadConfiguration()
 	{
-		$config = DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
+		$config = Helpers::merge($this->getConfig(), $this->defaults);
 		$builder = $this->getContainerBuilder();
 
 		// Define components
 		$paginator = $builder->addFactoryDefinition($this->prefix('paginator'))
-			->setImplement('IPub\VisualPaginator\Components\IControl')
+			->setImplement('Munipolis\VisualPaginator\Components\IControl')
 			->addTag('cms.components')
 			->getResultDefinition()
-			->setType('IPub\VisualPaginator\Components\Control')
-			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
-			->addTag(DI\Extensions\InjectExtension::TAG_INJECT);
+			->setType('Munipolis\VisualPaginator\Components\Control')
+			->setArguments([new PhpLiteral('$templateFile')])
+			->addTag(InjectExtension::TAG_INJECT);
 
 		if ($config['templateFile']) {
 			$paginator->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
 		}
 	}
 
-	/**
-	 * @param Nette\Configurator $config
-	 * @param string $extensionName
-	 */
-	public static function register(Nette\Configurator $config, $extensionName = 'visualPaginator')
+	public static function register(Configurator $config, string $extensionName = 'visualPaginator'): void
 	{
-		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName) {
+		$config->onCompile[] = function (Configurator $config, Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new VisualPaginatorExtension());
 		};
 	}
@@ -61,7 +61,7 @@ class VisualPaginatorExtension extends DI\CompilerExtension
 	 *
 	 * @return string[]
 	 */
-	function getTranslationResources()
+	function getTranslationResources(): array
 	{
 		return array(
 			__DIR__ . '/../Translations'

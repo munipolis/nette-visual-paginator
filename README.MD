@@ -1,35 +1,20 @@
 # Visual Paginator
 
-[![Build Status](https://img.shields.io/travis/ipublikuj-ui/visual-paginator.svg?style=flat-square)](https://travis-ci.org/ipublikuj-ui/visual-paginator)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ipublikuj-ui/visual-paginator.svg?style=flat-square)](https://scrutinizer-ci.com/g/ipublikuj-ui/visual-paginator/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/ipub/visual-paginator.svg?style=flat-square)](https://packagist.org/packages/ipub/visual-paginator)
-[![Composer Downloads](https://img.shields.io/packagist/dt/ipub/visual-paginator.svg?style=flat-square)](https://packagist.org/packages/ipub/visual-paginator)
-
 Visual paginator for [Nette Framework](http://nette.org/)
 
 ## Installation
 
 The best way to install ipub/visual-paginator is using  [Composer](http://getcomposer.org/):
 
-```json
-{
-	"require": {
-		"ipub/visual-paginator": "dev-master"
-	}
-}
-```
-
-or
-
 ```sh
-$ composer require ipub/visual-paginator:@dev
+$ composer require munipolis/nette-visual-paginator
 ```
 
 After that you have to register extension in config.neon.
 
 ```neon
 extensions:
-	visualPaginator: IPub\VisualPaginator\DI\VisualPaginatorExtension
+	visualPaginator: Munipolis\VisualPaginator\DI\VisualPaginatorExtension
 ```
 
 ## Usage
@@ -37,7 +22,7 @@ extensions:
 ### Implementing into Presenter or Component
 
 ```php
-use IPub\VisualPaginator\Components as VisualPaginator;
+use Munipolis\VisualPaginator\Components as VisualPaginator;
 
 class SomePresenter extends Nette\Application\UI\Presenter
 {
@@ -65,12 +50,12 @@ class SomePresenter extends Nette\Application\UI\Presenter
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return Munipolis\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new \src\VisualPaginator\Components\Control;
 
 		return $control;
 	}
@@ -82,19 +67,19 @@ class SomePresenter extends Nette\Application\UI\Presenter
 This component bring ajax support. When ajax is enabled, then **ajax** class is inserted into links.
 
 ```php
-use IPub\VisualPaginator\Components as VisualPaginator;
+use Munipolis\VisualPaginator\Components as VisualPaginator;
 
 class SomePresenter extends Nette\Application\UI\Presenter
 {
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return Munipolis\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new Munipolis\VisualPaginator\Components\Control;
 
 		// Enable ajax (by default)
 		$control->enableAjax();
@@ -110,7 +95,7 @@ class SomePresenter extends Nette\Application\UI\Presenter
 And now you have to define events what to do when next or previous page is loaded via Ajax request:
 
 ```php
-use IPub\VisualPaginator\Components as VisualPaginator;
+use Munipolis\VisualPaginator\Components as VisualPaginator;
 
 class SomePresenter extends Nette\Application\UI\Presenter
 {
@@ -135,19 +120,19 @@ class SomePresenter extends Nette\Application\UI\Presenter
 This component come with two default templates. One is basic default template, with some basic classes and the second one is [Bootstrap FW](http://getbootstrap.com/) template. And also you can use your own template:
 
 ```php
-use IPub\VisualPaginator\Components as VisualPaginator;
+use Munipolis\VisualPaginator\Components as VisualPaginator;
 
 class SomePresenter extends Nette\Application\UI\Presenter
 {
 	/**
 	 * Create items paginator
 	 *
-	 * @return VisualPaginator\Control
+	 * @return Munipolis\VisualPaginator\Components\Control
 	 */
 	protected function createComponentVisualPaginator()
 	{
 		// Init visual paginator
-		$control = new VisualPaginator\Control;
+		$control = new Munipolis\VisualPaginator\Components\Control;
 
 		// To use bootstrap default template
 		$control->setTemplateFile('bootstrap.latte');

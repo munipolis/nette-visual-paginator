@@ -12,25 +12,15 @@
  * @date		01.02.15
  */
 
-namespace IPub\VisualPaginator;
+namespace Munipolis\VisualPaginator;
 
-use Nette;
-use Nette\Application;
-
-use IPub;
-use IPub\VisualPaginator\Components;
+use Munipolis\VisualPaginator\Components\IControl;
 
 trait TVisualPaginator
 {
-	/**
-	 * @var Components\IControl
-	 */
-	protected $visualPaginatorFactory;
+	protected IControl $visualPaginatorFactory;
 
-	/**
-	 * @param Components\IControl $visualPaginatorFactory
-	 */
-	public function injectVisualPaginator(Components\IControl $visualPaginatorFactory) {
+	public function injectVisualPaginator(IControl $visualPaginatorFactory) {
 		$this->visualPaginatorFactory = $visualPaginatorFactory;
 	}
 }
